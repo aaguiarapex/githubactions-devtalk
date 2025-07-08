@@ -1,5 +1,5 @@
-name: aprendiendo-github-actions
-run-name: ¡Estoy aprendiendo GitHub Actions!
+name: Sample Python
+run-name: Python Github Actions
 on: [push]
 
 jobs:
