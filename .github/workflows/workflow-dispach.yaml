@@ -1,26 +1,55 @@
-name: Alerta Manual
+name: Sistema de Alertas Manual
+
 on:
   workflow_dispatch:
     inputs:
       alerta:
-        description: 'nivel'
+        description: 'Nivel de alerta'
         required: true
         default: medio
         type: choice
         options:
           - bajo
           - medio
+
 jobs:
-  alerta_job:
+  procesar_alerta:
+    name: Procesar Alerta
     runs-on: ubuntu-latest
+    
     steps:
-      - name: Mostrar nivel de alerta
-        run: echo "Nivel de alerta seleccionado: ${{ github.event.inputs.alerta }}"
+      - name: Checkout código
+        uses: actions/checkout@v4
       
-      - name: Acción para nivel bajo
-        if: ${{ github.event.inputs.alerta == 'bajo' }}
-        run: echo "Ejecutando acciones para alerta BAJA"
-        
-      - name: Acción para nivel medio
-        if: ${{ github.event.inputs.alerta == 'medio' }}
-        run: echo "Ejecutando acciones para alerta MEDIA"
+      - name: Mostrar información de la alerta
+        run: |
+          echo "========================================="
+          echo "🚨 SISTEMA DE ALERTAS ACTIVADO"
+          echo "========================================="
+          echo "Nivel seleccionado: ${{ github.event.inputs.alerta }}"
+          echo "Ejecutado por: ${{ github.actor }}"
+          echo "Fecha: $(date)"
+          echo "========================================="
+      
+      - name: Ejecutar acciones para alerta baja
+        if: github.event.inputs.alerta == 'bajo'
+        run: |
+          echo "✅ Procesando alerta de nivel BAJO"
+          echo "- Enviando notificación básica"
+          echo "- Registrando evento en logs"
+          echo "- Alerta procesada exitosamente"
+      
+      - name: Ejecutar acciones para alerta media
+        if: github.event.inputs.alerta == 'medio'
+        run: |
+          echo "⚠️ Procesando alerta de nivel MEDIO"
+          echo "- Enviando notificación a equipos"
+          echo "- Activando monitoreo adicional"
+          echo "- Preparando respuesta automática"
+          echo "- Alerta procesada exitosamente"
+      
+      - name: Finalizar proceso
+        run: |
+          echo "🔄 Proceso de alerta completado"
+          echo "Estado: Exitoso"
+          echo "Nivel procesado: ${{ github.event.inputs.alerta }}"
