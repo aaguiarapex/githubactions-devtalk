@@ -1,0 +1,28 @@
+name: Alerta Manual
+
+on:
+  workflow_dispatch:
+    inputs:
+      alerta:
+        description: 'nivel'
+        required: true
+        default: medio
+        type: choice
+        options:
+          - bajo
+          - medio
+
+jobs:
+  alerta_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Mostrar nivel de alerta
+        run: echo "Nivel de alerta seleccionado: ${{ github.event.inputs.alerta }}"
+
+      - name: Acción para nivel bajo
+        if: ${{ github.event.inputs.alerta == 'bajo' }}
+        run: echo "Ejecutando acciones para alerta BAJA"
+
+      - name: Acción para nivel medio
+        if: ${{ github.event.inputs.alerta == 'medio' }}
+        run: echo "Ejecutando acciones para alerta MEDIA"
